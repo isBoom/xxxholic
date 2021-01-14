@@ -1,0 +1,10 @@
+.vscode/
+.env
+.idea
+Dockerfile
+docker-compose.yml
+go.mod
+go.sum
+ssh.go
+test.go
+xxxholic.exe
