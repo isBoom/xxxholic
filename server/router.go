@@ -21,7 +21,7 @@ func NewRouter() *gin.Engine {
 		v1.POST("ping", api.Ping)
 		v1.POST("user/login",api.UserLogin)
 		v1.POST("user/register", api.UserRegister)
-		v1.GET("videos", api.ListVideo)
+		v1.POST("videos", api.ListVideo)
 		//	v1.GET("video/:id", api.ShowVideo)
 		//	//v1.GET("user/:id", api.OtherUserInfo)
 		//
