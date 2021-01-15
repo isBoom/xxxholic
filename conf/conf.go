@@ -2,6 +2,7 @@ package conf
 
 import (
 	"os"
+	"xxxholic/cache"
 	"xxxholic/model"
 	"xxxholic/util"
 
@@ -23,7 +24,7 @@ func Init() {
 
 	// 连接数据库
 	model.Database(os.Getenv("MYSQL_DSN"))
-	//cache.Redis()
+	cache.Redis()
 
 	//task.CronJob()
 }
