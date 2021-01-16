@@ -8,12 +8,15 @@ import (
 	"xxxholic/serializer"
 )
 
-type DailyRankService struct {
+type VideoRankService struct {
+	VideoType string `json:"videoType" form:"videoType"`
+	RankType  string `json:"rankType" form:"rankType"`
 }
 
-func (s *DailyRankService) Get() serializer.Response {
+func (s *VideoRankService) Get() serializer.Response {
 	var videos []model.Video
-	vds, _ := cache.RedisClient.ZRevRange(cache.DailyRankKey, 0, 10).Result()
+	rankName := cache.GetRankName(cache.GetType(s.RankType), s.VideoType)
+	vds, _ := cache.RedisClient.ZRevRange(rankName, 0, 10).Result()
 	if len(vds) > 0 {
 		order := fmt.Sprintf("Field(id,%s)", strings.Join(vds, ","))
 		if err := model.DB.Where("id in (?)", vds).Order(order).Find(&videos).Error; err != nil {

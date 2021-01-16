@@ -13,3 +13,11 @@ func ListVideo(c *gin.Context) {
 		c.JSON(200, service.List())
 	}
 }
+func ShowVideo(c *gin.Context) {
+	s := service.ShowVideoServics{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		c.JSON(200, s.Show(c.Param("id")))
+	}
+}

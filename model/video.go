@@ -11,11 +11,11 @@ import (
 
 type Video struct {
 	gorm.Model
-	Title  string `json:"Title"`
-	Info   string `json:"info"`
-	Url    string `json:"url" form:"url"`
-	Avatar string `json:"avatar"`
-	UserId uint   `json:"userId"`
+	Title     string `json:"Title"`
+	Info      string `json:"info"`
+	Url       string `json:"url" form:"url"`
+	Avatar    string `json:"avatar"`
+	UserId    uint   `json:"userId"`
 	VideoType string `json:"videoType"`
 }
 
@@ -38,7 +38,10 @@ func (video *Video) VideoUrl() string {
 }
 func (video *Video) AddView() {
 	cache.RedisClient.Incr(cache.VideoViewKey(video.ID))
-	cache.RedisClient.ZIncrBy(cache.DailyRankKey, 1, strconv.Itoa(int(video.ID)))
+	for _, value := range cache.RankType {
+		cache.RedisClient.ZIncrBy(value, 1, strconv.Itoa(int(video.ID)))
+		cache.RedisClient.ZIncrBy(cache.GetRankName(value, video.VideoType), 1, strconv.Itoa(int(video.ID)))
+	}
 }
 func (video *Video) GetView() uint64 {
 	count, _ := cache.RedisClient.Get(cache.VideoViewKey(video.ID)).Uint64()

@@ -16,16 +16,16 @@ func NewRouter() *gin.Engine {
 	r.Use(middleware.Cors())
 	r.Use(middleware.CurrentUser())
 
-	v1:=r.Group("/api/v1")
+	v1 := r.Group("/api/v1")
 	{
 		v1.POST("ping", api.Ping)
-		v1.POST("user/login",api.UserLogin)
+		v1.POST("user/login", api.UserLogin)
 		v1.POST("user/register", api.UserRegister)
 		v1.POST("videos", api.ListVideo)
-		//	v1.GET("video/:id", api.ShowVideo)
+		v1.GET("video/:id", api.ShowVideo)
 		//	//v1.GET("user/:id", api.OtherUserInfo)
 		//
-		//	v1.GET("rank/daily", api.DailyRank)
+		v1.POST("rank/video", api.VideoRank)
 		//	v1.GET("video/:id/comments", api.GetComments)
 	}
 	// 需要登录保护的
