@@ -26,6 +26,8 @@ const (
 	CodeCheckLogin = 401
 	// CodeNoRightErr 未授权访问
 	CodeNoRightErr = 403
+	//CodeCheckAdmin 非管理员
+	CodeCheckAdmin = 405
 	// CodeDBError 数据库操作失败
 	CodeDBError = 50001
 	// CodeEncryptError 加密失败
@@ -39,6 +41,12 @@ func CheckLogin() Response {
 	return Response{
 		Code: CodeCheckLogin,
 		Msg:  "未登录",
+	}
+}
+func CheckAdmin() Response{
+	return Response{
+		Code: CodeCheckAdmin,
+		Msg:  "您不是管理员",
 	}
 }
 

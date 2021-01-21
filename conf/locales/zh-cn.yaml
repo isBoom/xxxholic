@@ -3,9 +3,9 @@ Tag:
   min: "不够长"
   max: "太长"
 Field:
-  Name: "名称"
-  Nickname: "用户昵称"
+  Email: "邮箱"
   UserName: "用户名"
   Password: "密码"
   PasswordConfirm: "密码校验"
+  Signature: "个性签名"
   

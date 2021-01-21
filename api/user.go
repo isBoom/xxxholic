@@ -43,5 +43,23 @@ func UserLogout(c *gin.Context) {
 		Msg:  "登出成功",
 	})
 }
+func ChangePassword(c *gin.Context){
+	var service service.UserChangePasswordService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.UserChangePassword()
+		c.JSON(200, res)
+	}
+}
+func ChangeSignature(c *gin.Context){
+	var service service.UserChangeSignatureService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.UserChangeSignature(c)
+		c.JSON(200, res)
+	}
+}
 
 

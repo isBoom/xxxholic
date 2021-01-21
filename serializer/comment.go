@@ -30,10 +30,10 @@ func BuildComment(i model.Comment) Comment {
 	}
 }
 
-//func BuildComments(items []model.Comment) (Comments []Comment) {
-//	for _, item := range items {
-//		comment := BuildComment(item)
-//		Comments = append(Comments, comment)
-//	}
-//	return Comments
-//}
+func BuildComments(items []model.Comment) (Comments []Comment) {
+	for _, item := range items {
+		comment := BuildComment(item)
+		Comments = append(Comments, comment)
+	}
+	return Comments
+}

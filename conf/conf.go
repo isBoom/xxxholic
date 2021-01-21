@@ -4,6 +4,7 @@ import (
 	"os"
 	"xxxholic/cache"
 	"xxxholic/model"
+	"xxxholic/task"
 	"xxxholic/util"
 
 	"github.com/joho/godotenv"
@@ -26,5 +27,7 @@ func Init() {
 	model.Database(os.Getenv("MYSQL_DSN"))
 	cache.Redis()
 
-	//task.CronJob()
+	//获取管理员列表
+
+	task.CronJob()
 }

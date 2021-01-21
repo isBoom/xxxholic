@@ -7,10 +7,10 @@ import (
 
 // UserRegisterService 管理用户注册服务
 type UserRegisterService struct {
-	UserName        string `form:"userName" json:"userName" binding:"required,min=5,max=30,alphanum"`
-	Nickname        string `form:"nickname" json:"nickname" binding:"required,min=2,max=30"`
-	Password        string `form:"password" json:"password" binding:"required,min=6,max=40"`
-	PasswordConfirm string `form:"passwordConfirm" json:"passwordConfirm" binding:"required,min=6,max=40"`
+	Email        string `form:"email" json:"email" binding:"required,min=5,max=30,email"`
+	UserName        string `form:"userName" json:"userName" binding:"required,min=2,max=12"`
+	Password        string `form:"password" json:"password" binding:"required,min=6,max=20"`
+	PasswordConfirm string `form:"passwordConfirm" json:"passwordConfirm" binding:"required,min=6,max=20"`
 }
 
 // valid 验证表单
@@ -23,20 +23,20 @@ func (service *UserRegisterService) valid() *serializer.Response {
 	}
 
 	count := 0
-	model.DB.Model(&model.User{}).Where("user_name = ?", service.UserName).Count(&count)
+	model.DB.Model(&model.User{}).Where("email = ?", service.Email).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
-			Msg:  "用户名已经注册",
+			Msg:  "邮箱已经注册",
 		}
 	}
 
 	count = 0
-	model.DB.Model(&model.User{}).Where("nickname = ?", service.Nickname).Count(&count)
+	model.DB.Model(&model.User{}).Where("nickname = ?", service.UserName).Count(&count)
 	if count > 0 {
 		return &serializer.Response{
 			Code: 40001,
-			Msg:  "昵称被占用",
+			Msg:  "用户名已存在",
 		}
 	}
 	return nil
@@ -45,8 +45,8 @@ func (service *UserRegisterService) valid() *serializer.Response {
 // Register 用户注册
 func (service *UserRegisterService) Register() serializer.Response {
 	user := model.User{
-		Nickname: service.Nickname,
 		UserName: service.UserName,
+		Email: service.Email,
 		Status:   model.Active,
 	}
 

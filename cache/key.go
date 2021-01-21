@@ -4,11 +4,11 @@ import "fmt"
 
 const (
 	DailyRankKey = "rank:daily"
-	WeekRankKey  = "rank:week"
-	MonthRankKey = "rank:month"
+	WeeklyRankKey  = "rank:weekly"
+	MonthlyRankKey = "rank:monthly"
 )
 
-var RankType = [...]string{DailyRankKey, WeekRankKey, MonthRankKey}
+var RankType = [...]string{DailyRankKey, WeeklyRankKey, MonthlyRankKey}
 
 func VideoViewKey(id uint) string {
 	return fmt.Sprintf("view:video:%d", id)
@@ -26,4 +26,10 @@ func GetRankName(rank, videoType string) string {
 	} else {
 		return rank + ":" + videoType
 	}
+}
+func GetCaptcha(email string) string{
+	return email + ":captcha"
+}
+func GetCaptchaTime(email string) string{
+	return email + ":captcha:time"
 }

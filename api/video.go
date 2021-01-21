@@ -21,3 +21,23 @@ func ShowVideo(c *gin.Context) {
 		c.JSON(200, s.Show(c.Param("id")))
 	}
 }
+
+func CreateVideo(c *gin.Context) {
+	user := CurrentUser(c)
+	s := service.CreateVideoService{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		c.JSON(200, s.Create(user))
+	}
+}
+func UpdateVideo(c *gin.Context) {
+	s := service.UpdateVideoService{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(5001, ErrorResponse(err))
+	} else {
+		res := s.Update(c.Param("id"))
+		c.JSON(200, res)
+	}
+}
+
