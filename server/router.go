@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"os"
 	"xxxholic/api"
 	"xxxholic/middleware"
@@ -38,11 +37,14 @@ func NewRouter() *gin.Engine {
 		//用户类
 		auth.GET("user/me", api.UserMe)
 		auth.DELETE("user/logout", api.UserLogout)
+		auth.POST("user/changeAvatar", api.ChangeAvatar)
+		auth.GET("user/history",api.GetHistory)
+		//auth.GET("user/notAuditVideo",api.notAuditVideo)
 
 		//视频类
 		auth.POST("upload/tokenAvatar", api.UploadAvatarToken)
 		auth.POST("upload/tokenVideo", api.UploadVideoToken)
-		auth.PUT("videos/:id", api.UpdateVideo)
+		auth.POST("video/updateVideo", api.UpdateVideo)
 		auth.POST("videos", api.CreateVideo)
 		auth.POST("video/comment", api.AddComment)
 		auth.DELETE("video/delComment", api.DelComment)
@@ -51,9 +53,15 @@ func NewRouter() *gin.Engine {
 		admin:=auth.Group("/admin")
 		admin.Use(middleware.Admin())
 		{
-			admin.GET("test", func(context *gin.Context) {
-				fmt.Println("11111")
-			})
+			//admin.GET("test", func(context *gin.Context) {
+			//	fmt.Println("11111")
+			//})
+			admin.GET("user/me", api.UserMe)
+			admin.GET("user/list",api.AdminUserList)
+			admin.GET("user/adminList",api.AdminList)
+			admin.DELETE("user/delUser",api.AdminDelUser)
+			admin.POST("user/update",api.AdminUserUpdate)
+			admin.POST("user/create",api.AdminUserCreate)
 		}
 
 	}

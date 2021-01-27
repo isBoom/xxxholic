@@ -10,7 +10,11 @@ func ListVideo(c *gin.Context) {
 	if err := c.ShouldBind(&service); err != nil {
 		c.JSON(200, ErrorResponse(err))
 	} else {
-		c.JSON(200, service.List())
+		var userId uint
+		if user:=CurrentUser(c); user!=nil{
+			userId = user.ID
+		}
+		c.JSON(200, service.List(userId))
 	}
 }
 func ShowVideo(c *gin.Context) {
@@ -18,10 +22,13 @@ func ShowVideo(c *gin.Context) {
 	if err := c.ShouldBind(&s); err != nil {
 		c.JSON(200, ErrorResponse(err))
 	} else {
-		c.JSON(200, s.Show(c.Param("id")))
+		var userId uint
+		if user:=CurrentUser(c); user!=nil{
+			userId = user.ID
+		}
+		c.JSON(200, s.Show(c.Param("id"),userId))
 	}
 }
-
 func CreateVideo(c *gin.Context) {
 	user := CurrentUser(c)
 	s := service.CreateVideoService{}
@@ -36,7 +43,7 @@ func UpdateVideo(c *gin.Context) {
 	if err := c.ShouldBind(&s); err != nil {
 		c.JSON(5001, ErrorResponse(err))
 	} else {
-		res := s.Update(c.Param("id"))
+		res := s.Update()
 		c.JSON(200, res)
 	}
 }

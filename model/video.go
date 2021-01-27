@@ -2,10 +2,12 @@ package model
 
 import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
+	"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 	"xxxholic/cache"
 )
 
@@ -17,6 +19,7 @@ type Video struct {
 	Avatar    string `json:"avatar"`
 	UserId    uint   `json:"userId"`
 	VideoType string `json:"videoType"`
+	Status string `json:"status"`
 }
 
 func (video *Video) AvatarUrl() string {
@@ -41,6 +44,15 @@ func (video *Video) AddView() {
 	for _, value := range cache.RankType {
 		cache.RedisClient.ZIncrBy(value, 1, strconv.Itoa(int(video.ID)))
 		cache.RedisClient.ZIncrBy(cache.GetRankName(value, video.VideoType), 1, strconv.Itoa(int(video.ID)))
+	}
+}
+func (video *Video) SaveHistory(userId uint){
+	if userId != 0{
+		cache.RedisClient.ZAdd(cache.GetHistoryName(userId),redis.Z{
+			Score:  float64(time.Now().Unix()),
+			Member: strconv.Itoa(int(video.ID)),
+		})
+		//cache.RedisClient.ZIncrBy(cache.GetHistoryName(userId),float64(time.Now().Unix()),strconv.Itoa(int(video.ID)))
 	}
 }
 func (video *Video) GetView() uint64 {

@@ -10,7 +10,7 @@ type ShowVideoServics struct {
 	Info  string `json:"info"`
 }
 
-func (v *ShowVideoServics) Show(id string) serializer.Response {
+func (v *ShowVideoServics) Show(id string,userId uint) serializer.Response {
 	var video model.Video
 	if err := model.DB.First(&video, id).Error; err != nil {
 		return serializer.Response{
@@ -19,7 +19,14 @@ func (v *ShowVideoServics) Show(id string) serializer.Response {
 			Error: err.Error(),
 		}
 	}
+	if video.Status !="normal"{
+		return serializer.Response{
+			Code:  50001,
+			Msg:   "此视频暂无法播放",
+		}
+	}
 	video.AddView()
+	video.SaveHistory(userId)
 	return serializer.Response{
 		Data: serializer.BuildVideo(video),
 	}

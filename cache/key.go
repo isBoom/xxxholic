@@ -6,6 +6,7 @@ const (
 	DailyRankKey = "rank:daily"
 	WeeklyRankKey  = "rank:weekly"
 	MonthlyRankKey = "rank:monthly"
+	HistoryVideo = "history:video"
 )
 
 var RankType = [...]string{DailyRankKey, WeeklyRankKey, MonthlyRankKey}
@@ -32,4 +33,7 @@ func GetCaptcha(email string) string{
 }
 func GetCaptchaTime(email string) string{
 	return email + ":captcha:time"
+}
+func GetHistoryName(userId uint) string{
+	return fmt.Sprintf("%s:%d",HistoryVideo,userId)
 }

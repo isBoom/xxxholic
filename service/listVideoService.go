@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"strings"
 	"xxxholic/model"
 	"xxxholic/serializer"
@@ -12,9 +13,11 @@ type ListVideoServics struct {
 	VideoType string `json:"videoType" form:"videoType"`
 	Limit     uint64 `json:"limit" form:"limit"`
 	Offset    uint64 `json:"offset" form:"offset"`
+	UserId    uint   `json:"userId" form:"userId"`
+	Status string `json:"status" form:"status"`
 }
 
-func (s *ListVideoServics) List() serializer.Response {
+func (s *ListVideoServics) List(args ... interface{}) serializer.Response {
 	videos := []model.Video{}
 	where := []string{}
 	var count uint64
@@ -27,9 +30,16 @@ func (s *ListVideoServics) List() serializer.Response {
 	if s.Limit == 0 {
 		s.Limit = 12
 	}
-
+	if s.UserId ==0 || len(args)==0{
+		s.Status = "normal"
+	}else{
+		s.UserId = args[0].(uint)
+		fmt.Println(s)
+	}
 	if err := model.DB.Where(&model.Video{
+		UserId:s.UserId,
 		VideoType: s.VideoType,
+		Status:s.Status,
 	}).Where(strings.Join(where, "or")).
 		Find(&videos).Count(&count).Error; err != nil {
 		return serializer.Response{
@@ -40,7 +50,9 @@ func (s *ListVideoServics) List() serializer.Response {
 	}
 
 	if err := model.DB.Where(&model.Video{
+		UserId:s.UserId,
 		VideoType: s.VideoType,
+		Status:s.Status,
 	}).Where(strings.Join(where, "or")).Offset(s.Offset).Limit(s.Limit).
 		Find(&videos).Error; err != nil {
 		return serializer.Response{

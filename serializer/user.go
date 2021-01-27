@@ -10,7 +10,7 @@ type User struct {
 	Status    string `json:"status"`
 	Avatar    string `json:"avatar"`
 	CreatedAt int64  `json:"created_at"`
-	Signature string `json:"signature"`
+	Signature *string `json:"signature"`
 }
 
 // BuildUser 序列化用户
@@ -25,10 +25,24 @@ func BuildUser(user model.User) User {
 		Signature:user.Signature,
 	}
 }
+func BuildUsers(item []model.User) (users []User) {
+	for _, value := range item {
+		user := BuildUser(value)
+		users = append(users, user)
+	}
+	return
+}
 
 // BuildUserResponse 序列化用户响应
 func BuildUserResponse(user model.User) Response {
 	return Response{
 		Data: BuildUser(user),
+	}
+}
+// BuildUsersResponse 序列化用户响应
+func BuildUsersResponse(users []model.User,count uint64) Response {
+	return Response{
+		Data: BuildUsers(users),
+		Count:count,
 	}
 }

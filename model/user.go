@@ -13,10 +13,10 @@ type User struct {
 	gorm.Model
 	Email       string `gorm:"unique;size:30;not null"`
 	PasswordDigest string
-	UserName       string
+	UserName       string `gorm:"not null"`
 	Status         string
 	Avatar         string `gorm:"size:1000"`
-	Signature string `gorm:"size:50"`
+	Signature *string `gorm:"size:50"`
 }
 
 const (

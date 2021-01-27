@@ -12,6 +12,7 @@ type Video struct {
 	Avatar    string `json:"avatar"`
 	Url       string `json:"url"`
 	VideoType string `json:"videoType"`
+	Status string `json:"status"`
 }
 
 func BuildVideo(item model.Video) Video {
@@ -25,7 +26,7 @@ func BuildVideo(item model.Video) Video {
 		Avatar:    item.AvatarUrl(),
 		User:      BuildUser(user),
 		View:      item.GetView(),
-		VideoType:item.VideoType,
+		VideoType: item.VideoType,
 	}
 }
 func BuildVideos(item []model.Video) (videos []Video) {

@@ -57,7 +57,70 @@ func ChangeSignature(c *gin.Context){
 	if err := c.ShouldBind(&service); err != nil {
 		c.JSON(200, ErrorResponse(err))
 	} else {
-		res := service.UserChangeSignature(c)
+		res := service.UserChangeSignature(CurrentUser(c))
+		c.JSON(200, res)
+	}
+}
+func ChangeAvatar(c *gin.Context){
+	var service service.UserChangeAvatarService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.UserChangeAvatar(CurrentUser(c))
+		c.JSON(200, res)
+	}
+}
+func GetHistory(c *gin.Context){
+	var service service.UserHistoryService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.UserHistory(CurrentUser(c))
+		c.JSON(200, res)
+	}
+}
+func AdminUserList(c *gin.Context){
+	var service service.AdminUserListService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.AdminUserList()
+		c.JSON(200, res)
+	}
+}
+func AdminList(c *gin.Context){
+	var service service.AdminListService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.AdminList()
+		c.JSON(200, res)
+	}
+}
+func AdminUserUpdate(c *gin.Context){
+	var service service.AdminUserUpdateService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.AdminUserUpdate()
+		c.JSON(200, res)
+	}
+}
+func AdminDelUser(c *gin.Context){
+	var service service.AdminUserDelService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.UserDel()
+		c.JSON(200, res)
+	}
+}
+func AdminUserCreate(c *gin.Context){
+	var service service.AdminUserCreateService
+	if err := c.ShouldBind(&service); err != nil {
+		c.JSON(200, ErrorResponse(err))
+	} else {
+		res := service.UserCreate()
 		c.JSON(200, res)
 	}
 }

@@ -30,9 +30,18 @@ func (service *UserLoginService) Login(c *gin.Context) serializer.Response {
 	if user.CheckPassword(service.Password) == false {
 		return serializer.ParamErr("账号或密码错误", nil)
 	}
+	if user.Status != "active" {
+		return serializer.ParamErr("该账号被封禁", nil)
+	}
 
 	// 设置session
 	service.setSession(c, user)
-
-	return serializer.BuildUserResponse(user)
+	if _,ok:=model.AdminList[user.ID];ok{
+		return serializer.Response{
+			Code:  1,
+			Data:  serializer.BuildUser(user),
+		}
+	}else{
+		return serializer.BuildUserResponse(user)
+	}
 }

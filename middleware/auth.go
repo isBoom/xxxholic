@@ -28,8 +28,13 @@ func AuthRequired() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if user, _ := c.Get("user"); user != nil {
 			if _, ok := user.(*model.User); ok {
-				c.Next()
-				return
+				if user.(*model.User).Status == "active"{
+					c.Next()
+					return
+				}else{
+					c.JSON(200, serializer.Response{Code:  serializer.CodeNoRightErr,Msg:   "账户已被封禁",})
+					c.Abort()
+				}
 			}
 		}
 		c.JSON(200, serializer.CheckLogin())

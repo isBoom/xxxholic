@@ -1,18 +1,22 @@
 package service
 
 import (
+	"fmt"
 	"xxxholic/model"
 	"xxxholic/serializer"
 )
 
 type UpdateVideoService struct {
-	Title string `json:"title" form:"title" binding:"required,min=2,max=30"`
-	Info  string `json:"info" form:"info" binding:"required,min=0,max=300"`
+	ID uint `json:"id" form:"id"`
+	Title string `json:"title" form:"title" binding:"required,min=2,max=50"`
+	Info  string `json:"info" form:"info" binding:"max=500"`
+	Avatar string `json:"avatar" form:"avatar"`
+	VideoType string `json:"videoType" form:"videoType"`
 }
 
-func (s *UpdateVideoService) Update(id string) serializer.Response {
+func (s *UpdateVideoService) Update() serializer.Response {
 	var video model.Video
-	if err := model.DB.First(&video, id).Error; err != nil {
+	if err := model.DB.First(&video, s.ID).Error; err != nil {
 		return serializer.Response{
 			Code:  5001,
 			Msg:   "请求视频不存在",
@@ -21,6 +25,10 @@ func (s *UpdateVideoService) Update(id string) serializer.Response {
 	}
 	video.Title = s.Title
 	video.Info = s.Info
+	video.Avatar = s.Avatar
+	video.Status = "audit"
+	video.VideoType = s.VideoType
+
 	if err := model.DB.Save(&video).Error; err != nil {
 		return serializer.Response{
 			Code:  5001,
@@ -28,5 +36,6 @@ func (s *UpdateVideoService) Update(id string) serializer.Response {
 			Error: err.Error(),
 		}
 	}
+	fmt.Println(s)
 	return serializer.Response{Data: serializer.BuildVideo(video)}
 }
