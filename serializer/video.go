@@ -27,6 +27,7 @@ func BuildVideo(item model.Video) Video {
 		User:      BuildUser(user),
 		View:      item.GetView(),
 		VideoType: item.VideoType,
+		Status:    item.Status,
 	}
 }
 func BuildVideos(item []model.Video) (videos []Video) {

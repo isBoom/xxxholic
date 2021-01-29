@@ -27,6 +27,10 @@ func (s *AdminUserUpdateService) AdminUserUpdate() serializer.Response{
 			return serializer.ParamErr("设置密码失败",err)
 		}
 	}
+	if err := s.valid(); err != nil {
+		return *err
+	}
+
 	if err:=model.DB.Table("users").Where("id = ?",s.ID).Update(&user).Error;err!=nil{
 		return serializer.Err(serializer.CodeParamErr,"更新失败",err)
 	}else{
@@ -46,4 +50,29 @@ func (s *AdminUserUpdateService) AdminUserUpdate() serializer.Response{
 		}
 		return serializer.Response{}
 	}
+}
+
+// valid 验证表单
+func (s *AdminUserUpdateService) valid() *serializer.Response {
+	count := 0
+	if s.Email!=""{
+		model.DB.Model(&model.User{}).Where("email = ?", s.Email).Count(&count)
+		if count > 1 {
+			return &serializer.Response{
+				Code: 40001,
+				Msg:  "邮箱已经注册",
+			}
+		}
+	}
+	if s.UserName!=""{
+		count = 0
+		model.DB.Model(&model.User{}).Where("user_name = ?", s.UserName).Count(&count)
+		if count > 1 {
+			return &serializer.Response{
+				Code: 40001,
+				Msg:  "用户名已存在",
+			}
+		}
+	}
+	return nil
 }

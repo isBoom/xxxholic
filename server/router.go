@@ -53,17 +53,17 @@ func NewRouter() *gin.Engine {
 		admin:=auth.Group("/admin")
 		admin.Use(middleware.Admin())
 		{
-			//admin.GET("test", func(context *gin.Context) {
-			//	fmt.Println("11111")
-			//})
+			//用户相关
 			admin.GET("user/me", api.UserMe)
-			admin.GET("user/list",api.AdminUserList)
-			admin.GET("user/adminList",api.AdminList)
+			admin.GET("users",api.AdminUserList)
 			admin.DELETE("user/delUser",api.AdminDelUser)
 			admin.POST("user/update",api.AdminUserUpdate)
 			admin.POST("user/create",api.AdminUserCreate)
+			//视频相关
+			admin.GET("videos",api.AdminVideoList)
+			admin.DELETE("video/delVideo",api.AdminDelVideo)
+			admin.POST("video/updateVideo",api.AdminVideoUpdate)
 		}
-
 	}
 	return r
 }

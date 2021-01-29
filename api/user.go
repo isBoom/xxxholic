@@ -88,15 +88,6 @@ func AdminUserList(c *gin.Context){
 		c.JSON(200, res)
 	}
 }
-func AdminList(c *gin.Context){
-	var service service.AdminListService
-	if err := c.ShouldBind(&service); err != nil {
-		c.JSON(200, ErrorResponse(err))
-	} else {
-		res := service.AdminList()
-		c.JSON(200, res)
-	}
-}
 func AdminUserUpdate(c *gin.Context){
 	var service service.AdminUserUpdateService
 	if err := c.ShouldBind(&service); err != nil {

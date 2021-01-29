@@ -43,8 +43,38 @@ func UpdateVideo(c *gin.Context) {
 	if err := c.ShouldBind(&s); err != nil {
 		c.JSON(5001, ErrorResponse(err))
 	} else {
-		res := s.Update()
+		var userId uint
+		if user:=CurrentUser(c); user!=nil{
+			userId = user.ID
+		}
+		res := s.Update(userId)
 		c.JSON(200, res)
 	}
 }
-
+func AdminVideoUpdate(c *gin.Context) {
+	s := service.UpdateVideoService{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(5001, ErrorResponse(err))
+	} else {
+		res := s.AdminUpdate()
+		c.JSON(200, res)
+	}
+}
+func AdminVideoList(c *gin.Context) {
+	s := service.AdminVideoListService{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(5001, ErrorResponse(err))
+	} else {
+		res := s.AdminVideoList()
+		c.JSON(200, res)
+	}
+}
+func AdminDelVideo(c *gin.Context) {
+	s := service.AdminVideoDelService{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(5001, ErrorResponse(err))
+	} else {
+		res := s.VideoDel()
+		c.JSON(200, res)
+	}
+}

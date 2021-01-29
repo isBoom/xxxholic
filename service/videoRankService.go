@@ -19,9 +19,10 @@ func (s *VideoRankService) Get() serializer.Response {
 	var videos []model.Video
 	rankName := cache.GetRankName(cache.GetType(s.RankType), s.VideoType)
 	if s.Limit == 0 {
-		s.Limit = 10
+		s.Limit = 9
 	}
 	vds, _ := cache.RedisClient.ZRevRange(rankName, s.Offset, s.Limit).Result()
+
 	if len(vds) > 0 {
 		order := fmt.Sprintf("Field(id,%s)", strings.Join(vds, ","))
 		if err := model.DB.Where("id in (?)", vds).Order(order).Find(&videos).Error; err != nil {
