@@ -32,7 +32,7 @@ func (service *CreateVideoService) Create(user *model.User) serializer.Response 
 				Avatar: service.Avatar,
 				UserId: user.ID,
 				VideoType:service.VideoType,
-				Status: "notAudit",
+				Status: "audit",
 			}
 			if err := model.DB.Create(&v).Error; err != nil {
 				return serializer.Response{

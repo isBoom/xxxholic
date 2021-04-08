@@ -78,3 +78,13 @@ func AdminDelVideo(c *gin.Context) {
 		c.JSON(200, res)
 	}
 }
+func DelVideo(c *gin.Context) {
+	s := service.VideoDelService{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(5001, ErrorResponse(err))
+	} else {
+		user := CurrentUser(c)
+		res := s.VideoDel(user)
+		c.JSON(200, res)
+	}
+}

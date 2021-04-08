@@ -29,13 +29,13 @@ func (s *UpdateVideoService) Update(userId uint) serializer.Response {
 			Msg:   "无法更改其他人的视频信息",
 		}
 	}
-
+	if s.Avatar!=""{
+		video.Avatar = s.Avatar
+	}
 	video.Title = s.Title
 	video.Info = s.Info
-	video.Avatar = s.Avatar
 	video.Status = "audit"
 	video.VideoType = s.VideoType
-
 
 	if err := model.DB.Save(&video).Error; err != nil {
 		return serializer.Response{
@@ -57,9 +57,11 @@ func (s *UpdateVideoService) AdminUpdate() serializer.Response {
 		}
 	}
 
+	if s.Avatar!=""{
+		video.Avatar = s.Avatar
+	}
 	video.Title = s.Title
 	video.Info = s.Info
-	video.Avatar = s.Avatar
 	video.Status = s.Status
 	video.VideoType = s.VideoType
 

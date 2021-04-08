@@ -48,7 +48,7 @@ func NewRouter() *gin.Engine {
 		auth.POST("videos", api.CreateVideo)
 		auth.POST("video/comment", api.AddComment)
 		auth.DELETE("video/delComment", api.DelComment)
-
+		auth.DELETE("video/delVideo", api.DelVideo)
 		//管理员专用接口
 		admin:=auth.Group("/admin")
 		admin.Use(middleware.Admin())
