@@ -10,7 +10,8 @@ func Cors() gin.HandlerFunc {
 	config := cors.DefaultConfig()
 	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"}
 	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Cookie"}
-	config.AllowOrigins = []string{"https://xxxholic.top", "http://xxxholic.top", "https://www.xxxholic.top", "http://www.xxxholic.top", "http://localhost:8080", "http://127.0.0.1:8080"}
+	config.AllowOrigins = []string{"https://xxxholic.top", "http://xxxholic.top","https://xxxholic.xyz","http://xxxholic.xyz",
+		"https://www.xxxholic.top", "http://www.xxxholic.top","https://www.xxxholic.xyz","http://www.xxxholic.xyz", "http://localhost:8080", "http://127.0.0.1:8080"}
 	/*if gin.Mode() == gin.ReleaseMode {
 		// 生产环境需要配置跨域域名，否则403
 		config.AllowOrigins = []string{"http://www.example.com"}
