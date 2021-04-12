@@ -4,8 +4,6 @@
 t.go
 Dockerfile
 docker-compose.yml
-go.mod
-go.sum
 ssh.go
 ssh.exe
 test.go
