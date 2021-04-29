@@ -50,7 +50,5 @@ func (s *AdminUserListService) AdminUserList() serializer.Response{
 			return serializer.Err(serializer.CodeParamErr,"查询失败",err)
 		}
 	}
-
-
 	return serializer.BuildUsersResponse(users,count)
 }

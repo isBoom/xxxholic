@@ -63,6 +63,8 @@ func NewRouter() *gin.Engine {
 			admin.GET("videos",api.AdminVideoList)
 			admin.DELETE("video/delVideo",api.AdminDelVideo)
 			admin.POST("video/updateVideo",api.AdminVideoUpdate)
+			admin.GET("video/commentList",api.AdminCommentList)
+			admin.DELETE("video/delComment",api.AdminDelComment)
 		}
 	}
 	return r

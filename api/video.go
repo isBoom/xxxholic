@@ -88,3 +88,21 @@ func DelVideo(c *gin.Context) {
 		c.JSON(200, res)
 	}
 }
+func AdminCommentList(c *gin.Context){
+	s := service.AdminCommentListService{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(5001, ErrorResponse(err))
+	} else {
+		res := s.CommentList()
+		c.JSON(200, res)
+	}
+}
+func AdminDelComment(c *gin.Context){
+	s := service.AdminCommentDelService{}
+	if err := c.ShouldBind(&s); err != nil {
+		c.JSON(5001, ErrorResponse(err))
+	} else {
+		res := s.CommentDel()
+		c.JSON(200, res)
+	}
+}
